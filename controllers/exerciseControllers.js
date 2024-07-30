@@ -16,9 +16,9 @@ const createExercise = async (req, res) => {
 
     const date = req.body.date === "" ? new Date() : new Date(req.body.date);
 
-    const newExercise = await Exercise.create({
+    await Exercise.create({
       description,
-      duration,
+      duration: Number(duration),
       date,
       user: userId,
     });
@@ -26,7 +26,7 @@ const createExercise = async (req, res) => {
     const responseObj = {
       ...user._doc,
       date,
-      duration,
+      duration: Number(duration),
       description,
     };
 
