@@ -27,6 +27,19 @@ const createUser = async (req, res) => {
   }
 };
 
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+
+    res.json(users);
+  } catch (error) {
+    res.json({
+      error: "Internal server error",
+    });
+  }
+};
+
 module.exports = {
   createUser,
+  getUsers,
 };
