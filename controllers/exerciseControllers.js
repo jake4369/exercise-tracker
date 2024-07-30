@@ -1,12 +1,15 @@
 const Exercise = require("./../models/exerciseModel");
+const User = require("./../models/userModel");
 
 const createExercise = async (req, res) => {
   try {
     const { description, duration } = req.body;
     const userId = req.body[":_id"];
 
-    if (!userId) {
-      res.json({
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.json({
         message: "No user found",
       });
     }
@@ -14,18 +17,20 @@ const createExercise = async (req, res) => {
     const date = req.body.date === "" ? new Date() : new Date(req.body.date);
 
     const newExercise = await Exercise.create({
-      user: userId,
       description,
       duration,
       date,
+      user: userId,
     });
 
-    res.json({
-      _id: userId,
-      description,
-      duration,
+    const responseObj = {
+      ...user._doc,
       date,
-    });
+      duration,
+      description,
+    };
+
+    res.json(responseObj);
   } catch (error) {
     res.json({
       error: "Internal server error",
