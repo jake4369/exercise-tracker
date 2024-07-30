@@ -16,16 +16,27 @@ const createExercise = async (req, res) => {
 
     const date = req.body.date === "" ? new Date() : new Date(req.body.date);
 
+    const options = {
+      weekday: "short", // 'Tue'
+      year: "numeric", // '2024'
+      month: "short", // 'Jul'
+      day: "numeric", // '30'
+    };
+
+    const formattedDate = new Intl.DateTimeFormat("en-US", options)
+      .format(date)
+      .replace(",", "");
+
     await Exercise.create({
       description,
       duration: Number(duration),
-      date,
+      formattedDate,
       user: userId,
     });
 
     const responseObj = {
       ...user._doc,
-      date,
+      formattedDate,
       duration: Number(duration),
       description,
     };
