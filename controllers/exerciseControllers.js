@@ -14,7 +14,7 @@ const createExercise = async (req, res) => {
       });
     }
 
-    const date = !req.body.date ? new Date() : new Date(req.body.date);
+    const date = req.body.date ? new Date(req.body.date) : new Date();
 
     const options = {
       weekday: "short",
