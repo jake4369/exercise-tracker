@@ -30,13 +30,13 @@ const createExercise = async (req, res) => {
     await Exercise.create({
       description,
       duration: Number(duration),
-      formattedDate,
+      date: formattedDate,
       user: userId,
     });
 
     const responseObj = {
       ...user._doc,
-      formattedDate,
+      date: formattedDate,
       duration: Number(duration),
       description,
     };
