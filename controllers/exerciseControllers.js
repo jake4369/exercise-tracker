@@ -6,7 +6,7 @@ const createExercise = async (req, res) => {
     const { description, duration } = req.body;
     const userId = req.body[":_id"];
 
-    const user = await User.findById(userId);
+    const user = await User.findById({ _id: userId });
 
     if (!user) {
       return res.json({
@@ -25,23 +25,23 @@ const createExercise = async (req, res) => {
 
     const formattedDate = new Intl.DateTimeFormat("en-US", options)
       .format(date)
-      .replace(",", "");
+      .replace(/,/g, "");
 
-    await Exercise.create({
+    const newExercise = await Exercise.create({
       description,
       duration: Number(duration),
       date: formattedDate,
-      user: userId,
     });
 
-    const responseObj = {
-      ...user._doc,
-      date: formattedDate,
-      duration: Number(duration),
-      description,
+    const response = {
+      _id: user._id,
+      username: user.username,
+      date: newExercise.date,
+      duration: newExercise.duration,
+      description: newExercise.description,
     };
 
-    res.json(responseObj);
+    res.json(response);
   } catch (error) {
     res.json({
       error: "Internal server error",
