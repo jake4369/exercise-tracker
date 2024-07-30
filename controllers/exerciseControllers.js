@@ -31,6 +31,7 @@ const createExercise = async (req, res) => {
       description,
       date,
       duration: Number(duration),
+      user: userId,
     });
 
     const response = {
