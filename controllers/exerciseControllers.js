@@ -17,10 +17,10 @@ const createExercise = async (req, res) => {
     const date = req.body.date === "" ? new Date() : new Date(req.body.date);
 
     const options = {
-      weekday: "short", // 'Tue'
-      year: "numeric", // '2024'
-      month: "short", // 'Jul'
-      day: "numeric", // '30'
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     };
 
     const formattedDate = new Intl.DateTimeFormat("en-US", options)
@@ -29,14 +29,14 @@ const createExercise = async (req, res) => {
 
     const newExercise = await Exercise.create({
       description,
+      date,
       duration: Number(duration),
-      date: formattedDate,
     });
 
     const response = {
       _id: user._id,
       username: user.username,
-      date: newExercise.date,
+      date: formattedDate,
       duration: newExercise.duration,
       description: newExercise.description,
     };
