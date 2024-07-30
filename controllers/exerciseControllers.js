@@ -34,10 +34,11 @@ const createExercise = async (req, res) => {
       user: userId,
     });
 
+    const userObj = user.toObject();
+
     const response = {
-      //   _id: user._id,
-      //   username: user.username,
-      ...user,
+      _id: userObj._id,
+      username: userObj.username,
       date: formattedDate,
       duration: newExercise.duration,
       description: newExercise.description,
