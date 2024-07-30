@@ -35,8 +35,9 @@ const createExercise = async (req, res) => {
     });
 
     const response = {
-      _id: user._id,
-      username: user.username,
+      //   _id: user._id,
+      //   username: user.username,
+      ...user,
       date: formattedDate,
       duration: newExercise.duration,
       description: newExercise.description,
