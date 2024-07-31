@@ -38,7 +38,15 @@ const createExercise = async (req, res) => {
       date,
     });
 
-    return res.json(newExercise);
+    const responseObj = {
+      _id: user._id,
+      username: user.username,
+      date: formatDate(newExercise.date),
+      duration: newExercise.duration,
+      description: newExercise.description,
+    };
+
+    return res.json(responseObj);
   } catch (error) {
     return res.json({
       error: "Internal server error",
