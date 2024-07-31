@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { exerciseSchema } = require("./exerciseModel");
 
 const userSchema = new mongoose.Schema(
   {
@@ -7,6 +8,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
+    },
+    log: {
+      type: [exerciseSchema],
+      default: [],
     },
   },
   { versionKey: false }
