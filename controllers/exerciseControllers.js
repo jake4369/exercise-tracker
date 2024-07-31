@@ -32,9 +32,9 @@ const createExercise = async (req, res) => {
     });
 
     user.log.push({
-      description,
-      duration,
-      date,
+      date: formatDate(newExercise.date),
+      duration: newExercise.duration,
+      description: newExercise.description,
     });
 
     await user.save();
