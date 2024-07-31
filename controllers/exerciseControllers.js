@@ -11,7 +11,7 @@ const formatDate = (date) => {
 
 const createExercise = async (req, res) => {
   try {
-    const user_id = req.body[":_id"];
+    const user_id = req.params._id;
     const description = req.body.description;
     const duration = Number(req.body.duration);
     const date = formatDate(req.body.date);
