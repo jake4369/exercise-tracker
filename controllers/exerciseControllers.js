@@ -31,6 +31,14 @@ const createExercise = async (req, res) => {
       date,
     });
 
+    user.log.push({
+      description,
+      duration,
+      date,
+    });
+
+    await user.save();
+
     const responseObj = {
       _id: user._id,
       username: user.username,
