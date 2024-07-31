@@ -24,11 +24,11 @@ const createExercise = async (req, res) => {
 
     const user = await User.findById({ _id: userId });
 
-    if (!user) {
-      return res.json({
-        message: "No user found",
-      });
-    }
+    // if (!user) {
+    //   return res.json({
+    //     message: "No user found",
+    //   });
+    // }
 
     const date = req.body.date ? new Date(req.body.date) : new Date();
 
