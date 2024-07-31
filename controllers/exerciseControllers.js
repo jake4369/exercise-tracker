@@ -32,7 +32,7 @@ const createExercise = async (req, res) => {
     });
 
     user.log.push({
-      date: formatDate(newExercise.date),
+      date: newExercise.date,
       duration: newExercise.duration,
       description: newExercise.description,
     });
@@ -42,7 +42,7 @@ const createExercise = async (req, res) => {
     const responseObj = {
       _id: user._id,
       username: user.username,
-      date: formatDate(newExercise.date),
+      date: newExercise.date,
       duration: newExercise.duration,
       description: newExercise.description,
     };
