@@ -24,11 +24,11 @@ const createExercise = async (req, res) => {
 
     const user = await User.findById({ _id: userId });
 
-    // if (!user) {
-    //   return res.json({
-    //     message: "No user found",
-    //   });
-    // }
+    if (!user) {
+      return res.json({
+        message: "No user found",
+      });
+    }
 
     const date = req.body.date ? new Date(req.body.date) : new Date();
 
@@ -41,17 +41,21 @@ const createExercise = async (req, res) => {
       user: userId,
     });
 
-    // const userObj = user.toObject();
+    // const response = {
+    //   _id: user._id,
+    //   username: user.username,
+    //   date: formattedDate,
+    //   duration: newExercise.duration,
+    //   description: newExercise.description,
+    // };
 
-    const response = {
+    return res.json({
       _id: user._id,
       username: user.username,
       date: formattedDate,
       duration: newExercise.duration,
       description: newExercise.description,
-    };
-
-    return res.json(response);
+    });
   } catch (error) {
     return res.json({
       error: "Internal server error",
