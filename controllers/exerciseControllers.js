@@ -18,11 +18,12 @@ const formatDate = (date) => {
 
 const createExercise = async (req, res) => {
   try {
+    const user_id = req.body[":_id"];
     const description = req.body.description;
-    const duration = req.body.duration;
-    const userId = req.body[":_id"];
+    const duration = Number(req.body.duration);
+    const date = formatDate(req.body.date);
 
-    const user = await User.findById({ _id: userId });
+    const user = await User.findById(user_id);
 
     if (!user) {
       return res.json({
@@ -30,32 +31,14 @@ const createExercise = async (req, res) => {
       });
     }
 
-    const date = req.body.date ? new Date(req.body.date) : new Date();
-
-    const formattedDate = formatDate(date);
-
     const newExercise = await Exercise.create({
+      user: user._id,
       description,
+      duration,
       date,
-      duration: Number(duration),
-      user: userId,
     });
 
-    // const response = {
-    //   _id: user._id,
-    //   username: user.username,
-    //   date: formattedDate,
-    //   duration: newExercise.duration,
-    //   description: newExercise.description,
-    // };
-
-    return res.json({
-      _id: user._id,
-      username: user.username,
-      date: formattedDate,
-      duration: newExercise.duration,
-      description: newExercise.description,
-    });
+    return res.json(newExercise);
   } catch (error) {
     return res.json({
       error: "Internal server error",
