@@ -2,16 +2,9 @@ const Exercise = require("./../models/exerciseModel");
 const User = require("./../models/userModel");
 
 const formatDate = (date) => {
-  const options = {
-    weekday: "short",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  };
-
-  const formattedDate = new Intl.DateTimeFormat("en-US", options)
-    .format(date)
-    .replace(/,/g, "");
+  const formattedDate = date
+    ? new Date(date).toDateString()
+    : new Date().toDateString();
 
   return formattedDate;
 };
