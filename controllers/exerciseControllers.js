@@ -1,9 +1,25 @@
 const Exercise = require("./../models/exerciseModel");
 const User = require("./../models/userModel");
 
+const formatDate = (date) => {
+  const options = {
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  };
+
+  const formattedDate = new Intl.DateTimeFormat("en-US", options)
+    .format(date)
+    .replace(/,/g, "");
+
+  return formattedDate;
+};
+
 const createExercise = async (req, res) => {
   try {
-    const { description, duration } = req.body;
+    const description = req.body.description;
+    const duration = req.body.duration;
     const userId = req.body[":_id"];
 
     const user = await User.findById({ _id: userId });
@@ -16,16 +32,7 @@ const createExercise = async (req, res) => {
 
     const date = req.body.date ? new Date(req.body.date) : new Date();
 
-    const options = {
-      weekday: "short",
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    };
-
-    const formattedDate = new Intl.DateTimeFormat("en-US", options)
-      .format(date)
-      .replace(/,/g, "");
+    const formattedDate = formatDate(date);
 
     const newExercise = await Exercise.create({
       description,
@@ -34,19 +41,19 @@ const createExercise = async (req, res) => {
       user: userId,
     });
 
-    const userObj = user.toObject();
+    // const userObj = user.toObject();
 
     const response = {
-      _id: userObj._id,
-      username: userObj.username,
+      _id: user._id,
+      username: user.username,
       date: formattedDate,
       duration: newExercise.duration,
       description: newExercise.description,
     };
 
-    res.json(response);
+    return res.json(response);
   } catch (error) {
-    res.json({
+    return res.json({
       error: "Internal server error",
     });
   }
